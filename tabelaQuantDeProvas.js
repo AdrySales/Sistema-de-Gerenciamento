@@ -30,13 +30,13 @@ const server = http.createServer((req, res) => {
       }
     });
     
-  }else if (req.url === '/tabela') {
-    fs.readFile(path.join( 'tabela.html'), (err, data) => {
+  }else if (req.url === '/grafico-de-barras.png') {
+    fs.readFile(path.join( 'grafico-de-barras.png'), (err, data) => {
       if (err) {
-        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.writeHead(500, { 'Content-Type': 'png' });
         res.end('Erro interno do servidor');
       } else {
-        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.writeHead(200, { 'Content-Type': 'png' });
         res.end(data);
       }
     });
