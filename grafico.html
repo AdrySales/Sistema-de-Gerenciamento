@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alunos em Rede</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    canvas {
+      background-color: white;
+    }
+    h1 {
+      text-align: center;
+      position: relative;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      color:rgb(25, 25, 122)
+    }
+    .container {
+    position: relative;
+    width: 100%; /* Ocupar toda a largura */
+    height: 100vh; /* Ocupar toda a altura da viewport */
+}
+
+.arrow {
+    position: absolute;
+    top: 20px ; /* Distância do topo */
+    right: 20px; /* Distância da direita */
+    width: 0;
+    height: 0;
+    border-top: 20px solid white;
+    border-bottom: 20px solid white;
+    border-left: 20px solid rgb(25, 25, 122); 
+    opacity: 0.9; 
+    transition: opacity 0.3s white; 
+}
+
+.link:hover .arrow {
+    opacity: 1; /* Quando o mouse passa sobre o link, a seta fica totalmente visível */
+}
+
+.link:hover .arrow::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: calc(100% + 20px);
+    height: calc(100% + 20px);
+    border: 1px solid transparent;
+}
+
+  </style>
+ 
+</head>
+
+
+<body>
+
+
+  <div>
+    <h1 id="totalAlunos">TOTAL DE ALUNOS DA REDE:  </h1>
+  <script src="resultado.json"></script>
+ 
+   
+
+
+<canvas id="myChart"></canvas>
+
+<script>
+
+var contadorGeral=0;
+ 
+   async function total() {
+      try {
+        const response = await fetch('resultado');
+        const data = await response.json();
+        updateTable(data);
+        document.getElementById("totalAlunos").innerText += " " + contadorGeral;
+      } catch (error) {
+        console.error('Erro ao carregar o arquivo JSON:', error);
+      }
+    };
+  
+    function updateTable(data) {
+      // Usar o primeiro array do JSON para preencher as células da segunda coluna (começando da segunda linha)
+      for (let i = 1; i < 14; i++) {
+        const rowData = data[0]; // Usar o primeiro array do JSON
+        contadorGeral+=parseInt(rowData[i-1]) ;
+        console.log("soma geral:"+contadorGeral)
+       
+      }
+
+    }
+    
+  // Função para carregar e substituir os dados do JSON
+  async function carregarDados() {
+    try {
+      const response = await fetch('resultado');
+      const dados = await response.json();
+      console.log(dados)
+      // Substituir os dados nos arrays
+      const data = {
+        labels: ['1º Região', '2º Região', '3º Região', '4º Região', '5º Região', '6º Região', '7º Região', '8º Região', '9º Região', '10º Região', '11º Região', '12º Região', '13º Região'],
+        datasets: [
+        {
+            label: 'Total Geral',
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1,
+            data: dados[0],
+          },
+          {
+            label: 'Total Dia',
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1,
+            data: dados[1],
+          },
+          {
+            label: 'Total Manha',
+            backgroundColor: '#5392E3',
+            borderColor: '#2A5A91',
+            borderWidth: 1,
+            data: dados[2],
+          },
+          {
+            label: 'Total Tarde',
+            backgroundColor: '#14487D',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1,
+            data: dados[3],
+          },
+          {
+            label: 'Total Noite',
+            backgroundColor: '#2A5A91',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1,
+            data: dados[4],
+          },
+        ],
+      };
+ 
+      // Configurações do gráfico
+      const options = {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+            },
+          }],
+        },
+      };
+ 
+      // Criação do gráfico de colunas
+      const ctx = document.getElementById('myChart').getContext('2d');
+      const myChart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: options,
+      });
+    } catch (error) {
+      console.error('Erro ao carregar os dados:', error);
+    }
+  }
+
+  // Chamar a função para carregar os dados quando a página carregar
+  carregarDados();
+  total();
+</script>
+</div>
+
+<div><a href="tabela" class="arrow"></a></div>
+
+
+
+</body>
+</html>

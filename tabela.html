@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alunos em Rede - Tabela</title>
+<style>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+
+  th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid rgb(25, 25, 122);
+  }
+
+  th {
+    background-color: rgb(25, 25, 122);
+  }
+
+  th:first-child, td:first-child {
+    background-color: #e6e6e6;
+    font-weight: bold;
+  }
+  h1 {
+        text-align: center;
+        position: relative;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        color:rgb(25, 25, 122)
+      }
+    #title{
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        color:white
+    }
+    #title-master{
+        color:rgb(25, 25, 122)
+    }
+    #font{
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+ 
+    }
+    
+    .arrow {
+      position: absolute;
+    top: 20px; /* Distância do topo */
+    right: 20px; /* Distância da direita */
+    width: 60px; /* Largura da imagem */
+    height: 60px; /* Altura da imagem */
+   
+    background-size: cover; /* Ajuste para cobrir todo o espaço */
+    opacity: 0.9;
+    transition: opacity 0.3s;
+}
+
+.link:hover .arrow {
+    opacity: 1; /* Quando o mouse passa sobre o link, a imagem fica totalmente visível */
+}
+
+.link:hover .arrow::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: calc(100% + 20px);
+    height: calc(100% + 20px);
+    border: 1px solid transparent;
+}
+
+th h5 {
+        margin-top: 0; 
+        margin-bottom: 0; 
+    }
+
+</style>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function() {
+        
+        function getDataAtual() {
+            var hoje = new Date();
+            var dia = hoje.getDate();
+            var mes = hoje.getMonth() + 1; 
+            var ano = hoje.getFullYear();
+
+           
+            var dataFormatada = "("+dia.toString().padStart(2, '0') + '/' + mes.toString().padStart(2, '0') + '/' + ano+")";
+            return dataFormatada;
+        }
+
+    
+        var thDataHojeManha = document.getElementById("data-hojeManha");
+        var thDataHojeDia = document.getElementById("data-hojeDia");
+        var thDataHojeNoite = document.getElementById("data-hojeNoite");
+        var thDataHojeTarde= document.getElementById("data-hojeTarde");
+        if (thDataHojeManha) { 
+            thDataHojeManha.textContent = getDataAtual();
+        }
+        if (thDataHojeDia) { 
+            thDataHojeDia.textContent = getDataAtual();
+        }
+        if (thDataHojeTarde) { 
+            thDataHojeTarde.textContent = getDataAtual();
+        }
+        if (thDataHojeNoite) { 
+            thDataHojeNoite.textContent = getDataAtual();
+        }
+    });
+
+
+
+
+
+
+//________________________________________________________________________//
+  var contadorGeral=0;
+  var contadorDia=0;
+  var contadorManha=0;
+  var contadorTarde=0;
+  var contadorNoite=0;
+    window.onload = async function() {
+      try {
+        const response = await fetch('resultado');
+        const data = await response.json();
+        updateTable(data);
+      } catch (error) {
+        console.error('Erro ao carregar o arquivo JSON:', error);
+      }
+    };
+  
+    function updateTable(data) {
+      const table = document.getElementById('font');
+  
+      // Usar o primeiro array do JSON para preencher as células da segunda coluna (começando da segunda linha)
+      for (let i = 1; i < table.rows.length-1; i++) {
+        const rowData = data[0]; // Usar o primeiro array do JSON
+        const cellIndex = 1; // Índice da segunda coluna
+
+        contadorGeral+=parseInt(rowData[i-1]) ;
+      
+          table.rows[i].cells[cellIndex].textContent = rowData[i - 1];
+       
+      }
+      for (let i = 1; i < table.rows.length-1; i++) {
+        const rowData = data[1]; // Usar o segundo array do JSON
+        const cellIndex = 2; // Índice da terceira coluna
+      
+        contadorDia+=parseInt(rowData[i-1]) ;
+       
+          table.rows[i].cells[cellIndex].textContent = rowData[i - 1];
+        
+      }
+     
+       for (let i = 1; i < table.rows.length-1; i++) {
+        const rowData = data[2]; // Usar o segundo array do JSON
+        const cellIndex = 3; // Índice da quarta coluna
+       
+        contadorManha+=parseInt(rowData[i-1]) ;
+    
+          table.rows[i].cells[cellIndex].textContent = rowData[i - 1];
+        
+      }
+      for (let i = 1; i < table.rows.length-1; i++) {
+        const rowData = data[3]; // Usar o terceiro array do JSON
+        const cellIndex = 4; // Índice da quinta coluna
+
+        contadorTarde+=parseInt(rowData[i-1]) ;
+          table.rows[i].cells[cellIndex].textContent = rowData[i - 1];
+        
+      }
+      
+       for (let i = 1; i < table.rows.length-1; i++) {
+        const rowData = data[4]; // Usar o quarto array do JSON
+        const cellIndex = 5; // Índice da sexta coluna
+
+        contadorNoite+=parseInt(rowData[i-1]) ;
+          table.rows[i].cells[cellIndex].textContent = rowData[i - 1];
+      
+      
+        
+      }
+     // Calcula os totais para a última linha da tabela
+const lastRowIndex = table.rows.length - 1;
+table.rows[lastRowIndex].cells[1].textContent = contadorGeral;
+table.rows[lastRowIndex].cells[2].textContent = contadorDia;
+table.rows[lastRowIndex].cells[3].textContent = contadorManha;
+table.rows[lastRowIndex].cells[4].textContent = contadorTarde;
+table.rows[lastRowIndex].cells[5].textContent = contadorNoite;
+
+    
+    }
+  
+  
+  </script>
+</head>
+<body>
+
+<h1>TOTAL DE ALUNOS DA REDE</h1>
+
+<table id="font">
+  <tr id="title">
+    <th id="title-master">Região</th>
+    <th >Sub-total geral</th>
+    <th>Sub-total Dia   <h5 id="data-hojeDia"> </th>
+    <th>Sub-total Manhã <h5 id="data-hojeManha"> </th>
+    <th>Sub-total Tarde <h5 id="data-hojeTarde"> </th>
+    <th>Sub-total Noite <h5 id="data-hojeNoite"> </th>
+  </tr>
+  <tr style="background-color:rgb(185, 203, 219)">
+    <th>1º Região</th>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <th>2º Região</th>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr style="background-color:rgb(185, 203, 219)">
+    <td>3º Região</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>4º Região</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr style="background-color:rgb(185, 203, 219)">
+    <td>5º Região</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>6º Região</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr style="background-color:rgb(185, 203, 219)">
+    <td>7º Região</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>8º Região</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr style="background-color:rgb(185, 203, 219)">
+    <td>9º Região</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>10º Região</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr style="background-color:rgb(185, 203, 219)">
+    <td>11º Região</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>12º Região</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr style="background-color:rgb(185, 203, 219)">
+    <td>13º Região</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Totais</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+<a href="/" class="arrow">
+ 
+  <img src="grafico-de-barras.png" >
+</a>
+<img src="./grafico-de-barras.png" >
+</body>
+</html>
