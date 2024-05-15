@@ -45,19 +45,18 @@
     
     .arrow {
     position: absolute;
-    top: 20px ; /* Distância do topo */
+    top: 20px; /* Distância do topo */
     right: 20px; /* Distância da direita */
-    width: 0;
-    height: 0;
-    border-top: 20px solid white;
-    border-bottom: 20px solid white;
-    border-left: 20px solid rgb(25, 25, 122); 
-    opacity: 0.9; 
-    transition: opacity 0.3s white; 
+    width: 40px; /* Largura da imagem */
+    height: 40px; /* Altura da imagem */
+    background-image: url('grafico-de-barras.png'); /* URL da imagem */
+    background-size: cover; /* Ajuste para cobrir todo o espaço */
+    opacity: 0.9;
+    transition: opacity 0.3s;
 }
 
 .link:hover .arrow {
-    opacity: 1; /* Quando o mouse passa sobre o link, a seta fica totalmente visível */
+    opacity: 1; /* Quando o mouse passa sobre o link, a imagem fica totalmente visível */
 }
 
 .link:hover .arrow::after {
@@ -70,6 +69,7 @@
     height: calc(100% + 20px);
     border: 1px solid transparent;
 }
+
 th h5 {
         margin-top: 0; 
         margin-bottom: 0; 
