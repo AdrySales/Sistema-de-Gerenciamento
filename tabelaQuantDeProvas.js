@@ -40,6 +40,16 @@ const server = http.createServer((req, res) => {
         res.end(data);
       }
     });
+  }else if (req.url === '/tabela.png') {
+    fs.readFile(path.join( 'tabela.png'), (err, data) => {
+      if (err) {
+        res.writeHead(500, { 'Content-Type': 'png' });
+        res.end('Erro interno do servidor');
+      } else {
+        res.writeHead(200, { 'Content-Type': 'png' });
+        res.end(data);
+      }
+    });
   }else if (req.url === '/tabela') {
     fs.readFile(path.join( 'tabela.html'), (err, data) => {
       if (err) {
