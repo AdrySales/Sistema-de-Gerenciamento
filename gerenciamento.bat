@@ -1,6 +1,6 @@
 @echo off
 :loop
-cd /d "C:\Users\Yasmim Sales\Documents\Sistema-de-Gerenciamento"
+cd /d "C:\Users\luisa\Downloads\Sistema-de-Gerenciamento"
 
 echo Realizando git add...
 git add .
