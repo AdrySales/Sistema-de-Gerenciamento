@@ -126,6 +126,7 @@ document.addEventListener("DOMContentLoaded", function() {
   var contadorManha=0;
   var contadorTarde=0;
   var contadorNoite=0;
+  var contadorMadrugada=0;
     window.onload = async function() {
       try {
         const response = await fetch('resultado');
@@ -192,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const rowData = data[5]; // Usar o quinto array do JSON
         const cellIndex = 6; // Índice da setima coluna
 
-        contadorNoite+=parseInt(rowData[i-1]) ;
+        contadorMadrugada+=parseInt(rowData[i-1]) ;
           table.rows[i].cells[cellIndex].textContent = rowData[i - 1];
       
       
@@ -233,9 +234,11 @@ table.rows[lastRowIndex].cells[6].textContent = contadorMadrugada;
     <td></td>
     <td></td>
     <td></td>
+    <td></td>
   </tr>
   <tr>
     <th>2º Região</th>
+    <td></td>
     <td></td>
     <td></td>
     <td></td>
@@ -249,9 +252,11 @@ table.rows[lastRowIndex].cells[6].textContent = contadorMadrugada;
     <td></td>
     <td></td>
     <td></td>
+    <td></td>
   </tr>
   <tr>
     <td>4º Região</td>
+    <td></td>
     <td></td>
     <td></td>
     <td></td>
@@ -265,9 +270,11 @@ table.rows[lastRowIndex].cells[6].textContent = contadorMadrugada;
     <td></td>
     <td></td>
     <td></td>
+    <td></td>
   </tr>
   <tr>
     <td>6º Região</td>
+    <td></td>
     <td></td>
     <td></td>
     <td></td>
@@ -281,9 +288,11 @@ table.rows[lastRowIndex].cells[6].textContent = contadorMadrugada;
     <td></td>
     <td></td>
     <td></td>
+    <td></td>
   </tr>
   <tr>
     <td>8º Região</td>
+    <td></td>
     <td></td>
     <td></td>
     <td></td>
@@ -297,9 +306,11 @@ table.rows[lastRowIndex].cells[6].textContent = contadorMadrugada;
     <td></td>
     <td></td>
     <td></td>
+    <td></td>
   </tr>
   <tr>
     <td>10º Região</td>
+    <td></td>
     <td></td>
     <td></td>
     <td></td>
@@ -313,9 +324,11 @@ table.rows[lastRowIndex].cells[6].textContent = contadorMadrugada;
     <td></td>
     <td></td>
     <td></td>
+    <td></td>
   </tr>
   <tr>
     <td>12º Região</td>
+    <td></td>
     <td></td>
     <td></td>
     <td></td>
@@ -329,9 +342,11 @@ table.rows[lastRowIndex].cells[6].textContent = contadorMadrugada;
     <td></td>
     <td></td>
     <td></td>
+    <td></td>
   </tr>
   <tr>
     <td>Totais</td>
+    <td></td>
     <td></td>
     <td></td>
     <td></td>
