@@ -97,6 +97,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var thDataHojeDia = document.getElementById("data-hojeDia");
         var thDataHojeNoite = document.getElementById("data-hojeNoite");
         var thDataHojeTarde= document.getElementById("data-hojeTarde");
+        var thDataHojeMadrugada= document.getElementById("data-hojeMadrugada");
         if (thDataHojeManha) { 
             thDataHojeManha.textContent = getDataAtual();
         }
@@ -108,6 +109,9 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         if (thDataHojeNoite) { 
             thDataHojeNoite.textContent = getDataAtual();
+        }
+        if (thDataHojeMadrugada) { 
+            thDataHojeMadrugada.textContent = getDataAtual();
         }
     });
 
@@ -183,6 +187,17 @@ document.addEventListener("DOMContentLoaded", function() {
       
         
       }
+      
+      for (let i = 1; i < table.rows.length-1; i++) {
+        const rowData = data[5]; // Usar o quinto array do JSON
+        const cellIndex = 6; // Índice da setima coluna
+
+        contadorNoite+=parseInt(rowData[i-1]) ;
+          table.rows[i].cells[cellIndex].textContent = rowData[i - 1];
+      
+      
+        
+      }
      // Calcula os totais para a última linha da tabela
 const lastRowIndex = table.rows.length - 1;
 table.rows[lastRowIndex].cells[1].textContent = contadorGeral;
@@ -190,7 +205,7 @@ table.rows[lastRowIndex].cells[2].textContent = contadorDia;
 table.rows[lastRowIndex].cells[3].textContent = contadorManha;
 table.rows[lastRowIndex].cells[4].textContent = contadorTarde;
 table.rows[lastRowIndex].cells[5].textContent = contadorNoite;
-
+table.rows[lastRowIndex].cells[6].textContent = contadorMadrugada;
     
     }
   
@@ -209,6 +224,7 @@ table.rows[lastRowIndex].cells[5].textContent = contadorNoite;
     <th>Sub-total Manhã <h5 id="data-hojeManha"> </th>
     <th>Sub-total Tarde <h5 id="data-hojeTarde"> </th>
     <th>Sub-total Noite <h5 id="data-hojeNoite"> </th>
+    <th>Sub-total Madrugada <h5 id="data-hojeMadrugada"> </th>
   </tr>
   <tr style="background-color:rgb(185, 203, 219)">
     <th>1º Região</th>

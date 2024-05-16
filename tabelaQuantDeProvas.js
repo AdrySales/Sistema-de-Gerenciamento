@@ -186,15 +186,26 @@ async function obterQuantidadeDeLinhasRegionalTarde(regional) {
 async function obterQuantidadeDeLinhasRegionalMadrugada(regional) {
   try {
     const hoje = new Date();
+
+    // Armazenando a data de hoje
+    const anoHoje = hoje.getFullYear();
+    const mesHoje = String(hoje.getMonth() + 1).padStart(2, '0');
+    const diaHoje = String(hoje.getDate()).padStart(2, '0');
+    const dataHoje = `${anoHoje}-${mesHoje}-${diaHoje}`;
+    
+    // Criando uma nova data representando ontem
     const ontem = new Date(hoje);
     ontem.setDate(hoje.getDate() - 1);
     
-    const ano = ontem.getFullYear();
-    const mes = String(ontem.getMonth() + 1).padStart(2, '0');
-    const dia = String(ontem.getDate()).padStart(2, '0');
-    const dataOntem = `${ano}-${mes}-${dia}`;
+    // Armazenando a data de ontem
+    const anoOntem = ontem.getFullYear();
+    const mesOntem = String(ontem.getMonth() + 1).padStart(2, '0');
+    const diaOntem = String(ontem.getDate()).padStart(2, '0');
+    const dataOntem = `${anoOntem}-${mesOntem}-${diaOntem}`;
+
+    
     const resultMadrugada = await client.query("SELECT COUNT(id), external_id FROM (SELECT DISTINCT ea.id, ar.external_id FROM evaluation_applications ea INNER JOIN community_rooms_users cru ON ea.user_id = cru.user_id INNER JOIN community_rooms cr ON cru.room_id = cr.id INNER JOIN access_regions ar ON cr.region_id = ar.id WHERE ea.list_id IN (4281, 4265, 4267, 4282, 4285, 4289, 4291, 4293, 4306, 4290) AND ar.external_id = $1 AND ea.end IS NOT NULL AND ea.end <= $3 AND ea.start >= $2 AND ea.deleted_at IS NULL AND cru.deleted_at IS NULL AND cr.deleted_at IS NULL AND ar.deleted_at is NULL) AS unique_rows GROUP BY external_id", [regional, dataOntem + ' 22:00:01', dataHoje + ' 07:00:00']);       
-    if (resultTarde.rows.length === 0) {
+    if (resultMadrugada.rows.length === 0) {
       return 0; // or any default value you prefer
     }
     return resultMadrugada.rows[0].count;
@@ -252,7 +263,7 @@ async function salvarResultadoCSV() {
       const quantidadeDeLinhasManha = await obterQuantidadeDeLinhasRegionalManha(nome);
       const quantidadeDeLinhasTarde = await obterQuantidadeDeLinhasRegionalTarde(nome);
       const quantidadeDeLinhasNoite = await obterQuantidadeDeLinhasRegionalNoite(nome);
-
+      const quantidadeDeLinhasMadrugada = await obterQuantidadeDeLinhasRegionalMadrugada(nome);
       // Cria os dados CSV
       const agora = new Date();
       //const timestamp = agora.toISOString().replace(/:/g, '-').split('.')[0];
@@ -261,7 +272,8 @@ async function salvarResultadoCSV() {
 2,${nome},${quantidadeDeLinhasDia},${agora.toLocaleString()}
 3,${nome},${quantidadeDeLinhasManha},${agora.toLocaleString()}
 4,${nome},${quantidadeDeLinhasTarde},${agora.toLocaleString()}
-5,${nome},${quantidadeDeLinhasNoite},${agora.toLocaleString()}\n`;
+5,${nome},${quantidadeDeLinhasNoite},${agora.toLocaleString()}
+6,${nome},${quantidadeDeLinhasMadrugada},${agora.toLocaleString()}\n`;
     
       const caminhoArquivo = 'resultado.csv';
       await appendFileAsync(caminhoArquivo, dadosCSV);
@@ -291,7 +303,7 @@ async function lerCSV() {
     const conteudo = await fs.promises.readFile('resultado.csv', 'utf-8');
     const linhas = conteudo.trim().split('\n');
 
-    const arrays = [[], [], [], [], []]; // Cria os 5 arrays vazios
+    const arrays = [[], [], [], [], [],[]]; // Cria os 5 arrays vazios
 
     linhas.forEach(linha => {
       const campos = linha.split(',');
