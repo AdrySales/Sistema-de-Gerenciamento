@@ -149,7 +149,7 @@ async function obterQuantidadeDeLinhasRegionalManha(regional) {
     const mes = String(hoje.getMonth() + 1).padStart(2, '0');
     const dia = String(hoje.getDate()).padStart(2, '0');
     const dataHoje = `${ano}-${mes}-${dia}`;
-    const resultManha = await client.query("SELECT COUNT(id), external_id FROM (SELECT DISTINCT ea.id, ar.external_id FROM evaluation_applications ea INNER JOIN community_rooms_users cru ON ea.user_id = cru.user_id INNER JOIN community_rooms cr ON cru.room_id = cr.id INNER JOIN access_regions ar ON cr.region_id = ar.id WHERE ea.list_id IN (4281, 4265, 4267, 4282, 4285, 4289, 4291, 4293, 4306, 4290) AND ar.external_id = $1 AND ea.end IS NOT NULL AND ea.end <= $3 AND ea.start >= $2 AND ea.deleted_at IS NULL AND cru.deleted_at IS NULL AND cr.deleted_at IS NULL AND ar.deleted_at is NULL) AS unique_rows GROUP BY external_id", [regional, dataHoje + ' 00:07:00', dataHoje + ' 13:00:00']);       
+    const resultManha = await client.query("SELECT COUNT(id), external_id FROM (SELECT DISTINCT ea.id, ar.external_id FROM evaluation_applications ea INNER JOIN community_rooms_users cru ON ea.user_id = cru.user_id INNER JOIN community_rooms cr ON cru.room_id = cr.id INNER JOIN access_regions ar ON cr.region_id = ar.id WHERE ea.list_id IN (4281, 4265, 4267, 4282, 4285, 4289, 4291, 4293, 4306, 4290) AND ar.external_id = $1 AND ea.end IS NOT NULL AND ea.end <= $3 AND ea.start >= $2 AND ea.deleted_at IS NULL AND cru.deleted_at IS NULL AND cr.deleted_at IS NULL AND ar.deleted_at is NULL) AS unique_rows GROUP BY external_id", [regional, dataHoje + ' 07:00:00', dataHoje + ' 13:00:00']);       
     if (resultManha.rows.length === 0) {
       return 0; // or any default value you prefer
     }
